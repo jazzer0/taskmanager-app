@@ -1,12 +1,13 @@
 import { Injectable, InternalServerErrorException, Logger } from "@nestjs/common"
 import { User } from "@prisma/client"
+import { NewUserInput } from "src/graphql/dto/NewUserInput.dto"
 import { PrismaService } from "src/prisma/prisma.service"
 
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(userData: Omit<User, "id">) {
+  async create(userData: NewUserInput) {
     try {
       const user = await this.prismaService.user.create({
         data: userData,
@@ -21,13 +22,15 @@ export class UserService {
     }
   }
 
-  /*async findAll() {
-    const users = await this.prismaService.user.findMany()
+  async findAll() {
+    return this.prismaService.user.findMany()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`
-  }*/
+  async findOne(id: number) {
+    return this.prismaService.user.findFirstOrThrow({
+      where: { id: id },
+    })
+  }
 
   async updateUser(id: number, userData: User) {
     const { id: userID } = await this.prismaService.user.findFirstOrThrow({
