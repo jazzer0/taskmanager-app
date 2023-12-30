@@ -1,19 +1,20 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import "./App.css";
-import Home from "./modules/home/home.layout";
 import customTheme from "./config/theme";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ROUTES } from "./routes";
+import Landing from "./modules/landing/landing.layout";
+import { Home } from "./modules/home/home.layout";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: ROUTES.LANDING_PAGE,
-      element: <Home />,
+      element: <Landing />,
     },
     {
       path: ROUTES.HOME,
-      element: <>hello world</>,
+      element: <Home/>,
     }
   ]);
   return (
